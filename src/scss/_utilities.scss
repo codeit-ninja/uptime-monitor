@@ -1,0 +1,26 @@
+$utilities: (
+    "cursor": (
+        property: cursor,
+        class: cursor,
+        values: (
+            pointer: pointer,
+            none: none,
+            progress: progress,
+            default: default,
+            xxl: 950px,
+            full: 100%
+        )
+    ),
+    "section": (
+        property: max-width,
+        class: section,
+        values: (
+            sm: 450px,
+            md: 550px,
+            lg: 650px,
+            xl: 750px,
+            xxl: 950px,
+            full: 100%
+        )
+    )
+);
