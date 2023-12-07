@@ -15,13 +15,23 @@ $secondary-800: shade-color($secondary, 60%) !default;
 $secondary-900: shade-color($secondary, 80%) !default;
 
 $secondaries: (
-  secondary-100: $secondary-100,
-  secondary-200: $secondary-200,
-  secondary-300: $secondary-300,
-  secondary-400: $secondary-400,
-  secondary-500: $secondary-500,
-  secondary-600: $secondary-600,
-  secondary-700: $secondary-700,
-  secondary-800: $secondary-800,
-  secondary-900: $secondary-900
+    secondary-100: $secondary-100,
+    secondary-200: $secondary-200,
+    secondary-300: $secondary-300,
+    secondary-400: $secondary-400,
+    secondary-500: $secondary-500,
+    secondary-600: $secondary-600,
+    secondary-700: $secondary-700,
+    secondary-800: $secondary-800,
+    secondary-900: $secondary-900
 );
+
+$spinner-width:           2rem;
+$spinner-height:          $spinner-width;
+$spinner-vertical-align:  -.125em;
+$spinner-border-width:    .15em;
+$spinner-animation-speed: .75s;
+
+$spinner-width-sm:        1rem;
+$spinner-height-sm:       $spinner-width-sm;
+$spinner-border-width-sm: .1em;

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { pb } from "$lib/database";
+    import { pb } from "$lib/pocketbase";
 
     const github = () => pb.collection('users').authWithOAuth2({ provider: 'github' });
 </script>

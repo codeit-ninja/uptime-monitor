@@ -11,7 +11,8 @@
         url: 'https://nijlandpaardencoaching.nl',
         interval: 10,
         timeout: 30,
-        method: 'GET'
+        method: 'GET',
+        submitting: false
     }
 
     const schema = object({
@@ -25,6 +26,8 @@
     const submit = async (event: { currentTarget: EventTarget & HTMLFormElement }) => {
         const formData = Object.fromEntries(new FormData(event.currentTarget));
         
+        data.submitting = true;
+
         // Return when form fields dont satisfies constraints
         if( false === event.currentTarget.checkValidity() ) {
             return event.currentTarget.classList.add('was-validated');
@@ -33,18 +36,23 @@
         try {
             const formdata = await schema.validate( formData, { abortEarly: false } );
 
-            fetch('/api/monitors/http/create', {
+            const request = await fetch('/api/monitors/http/create', {
                 method: 'POST',
                 body: JSON.stringify( formdata ),
                 headers: {
                     'Content-Type': 'application/json'
                 }
             })
+            const response = await request.text();
+
+            console.log(response)
         } catch(err) {
             if( err instanceof ValidationError ) {
-                console.log(err.inner)
+                //console.log(err.inner)
             }
         }
+
+        setTimeout(() => data.submitting = false, 500);
     }
 </script>
 <form method="post" class="needs-validation" on:submit|preventDefault={submit} novalidate>
@@ -88,5 +96,5 @@
         after="seconds"
         required 
     />
-    <Submit value="Create monitor" />
+    <Submit value="Create monitor" submitting={data.submitting} />
 </form>

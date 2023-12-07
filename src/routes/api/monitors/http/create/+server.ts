@@ -1,4 +1,4 @@
-import { pb } from "$lib/database";
+import { pb } from "$lib/pocketbase";
 import type { HttpMonitorsRecord, HttpMonitorsResponse } from "$lib/types/pocketbase-types";
 import { json, type RequestHandler } from "@sveltejs/kit"
 import type { RecordService } from "pocketbase";

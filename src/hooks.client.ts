@@ -1,5 +1,5 @@
 import "bootstrap";
-import { pb } from '$lib/database';
+import { pb } from '$lib/pocketbase';
 
 pb.authStore.loadFromCookie(document.cookie)
 pb.authStore.onChange(() => {

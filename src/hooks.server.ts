@@ -1,5 +1,5 @@
-import { pb } from '$lib/database'
-import { redirect, type Handle, json } from '@sveltejs/kit'
+import { pb } from '$lib/pocketbase';
+import { json, type Handle, redirect } from '@sveltejs/kit';
 
 export const handle: Handle = async ({ event, resolve }) => {
     pb.authStore.loadFromCookie(event.request.headers.get('cookie') || '')
@@ -13,7 +13,7 @@ export const handle: Handle = async ({ event, resolve }) => {
         // clear the auth store on failed refresh
         pb.authStore.clear()
     }
-
+    
     const response = await resolve(event)
 
     // send back the default 'pb_auth' cookie to the client with the latest store state
@@ -23,9 +23,14 @@ export const handle: Handle = async ({ event, resolve }) => {
     )
 
     if( ! pb.authStore.isValid && event.route.id?.startsWith('/api') ) {
-        return json('You must login before accessing the API.', { status: 401, statusText: 'You must login before accessing the API.' })
+        const responseStatus = {
+            code: 401,
+            message: 'Unauthorized'
+        }
+        
+        return json(responseStatus, { status: 401 })
     }
-    
+
     // Needs to be authenticated before accessing application
     if( ! pb.authStore.isValid && event.route.id !== '/auth/login' ) {
         throw redirect(307, '/auth/login')
