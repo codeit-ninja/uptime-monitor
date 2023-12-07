@@ -1,17 +1,19 @@
-@import "bootstrap/scss/functions";
-
 // Custom variables, overwrite them here
 @import "./variables";
-@import "./utilities";
 
 @import "bootstrap/scss/variables";
 @import "bootstrap/scss/variables-dark";
 @import "bootstrap/scss/maps";
 @import "bootstrap/scss/mixins";
 @import "bootstrap/scss/utilities";
+
+// Custom utilities, create them here
+@import "./utilities";
+
 @import "bootstrap/scss/utilities/api";
 
 @import "./forms";
+@import "./colors";
 @import "./btn";
 @import "./layout";
 @import "./nav";

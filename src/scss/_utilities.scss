@@ -22,5 +22,10 @@ $utilities: (
             xxl: 950px,
             full: 100%
         )
+    ),
+    "bg-secondary": (
+        property: background-color,
+        class: bg,
+        values: $secondaries
     )
 );

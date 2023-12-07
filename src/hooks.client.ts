@@ -1,6 +1,7 @@
 import "bootstrap";
-import { pb, authenticate } from '$lib/database';
+import { pb } from '$lib/database';
 
-if( false === pb.authStore.isValid ) {
-    authenticate();
-}
+pb.authStore.loadFromCookie(document.cookie)
+pb.authStore.onChange(() => {
+    document.cookie = pb.authStore.exportToCookie({ httpOnly: false })
+}, true)

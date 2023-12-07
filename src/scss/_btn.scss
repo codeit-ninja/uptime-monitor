@@ -4,4 +4,11 @@
         --bs-btn-color: #{$white};
         --bs-btn-active-color: #{$white};
     }
+
+    &-check {
+        &:checked + .btn {
+            --bs-btn-active-bg: #{$secondary-600};
+            --bs-btn-active-border-color: #{$secondary-500};
+        }
+    }
 }

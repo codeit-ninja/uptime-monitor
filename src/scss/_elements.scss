@@ -1,5 +1,6 @@
 section {
-    background-color: var(--bs-tertiary-bg);
-    padding: 3rem;
+    background-color: $secondary-700;
+    padding: 2rem;
     border-radius: .5rem;
+    border: 1px solid $secondary-600;
 }
