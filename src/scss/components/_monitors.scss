@@ -1,0 +1,16 @@
+.monitors-table {
+    background-color: $secondary-700;
+    border-radius: 1rem;
+
+    .th, .td {
+        padding: 1.35rem 1.5rem;
+    }
+
+    .td {
+        color: $secondary-200;
+    }
+
+    .row:not(:last-child) {
+        border-bottom: 1px solid $secondary-800;
+    }
+}

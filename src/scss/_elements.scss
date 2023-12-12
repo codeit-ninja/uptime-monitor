@@ -4,3 +4,25 @@ section {
     border-radius: .5rem;
     border: 1px solid $secondary-600;
 }
+
+code {
+    background-color: $secondary-500;
+    border-radius: $border-radius;
+    padding: .35rem .75rem;
+    color: $secondary-200;
+}
+
+.indicator {
+    display: flex;
+    height: 1rem;
+    width: 1rem;
+    border-radius: 50%;
+
+    &-online {
+        background-color: $success;
+    }
+
+    &-offline {
+        background-color: $danger;
+    }
+}

@@ -12,10 +12,17 @@
 
 @import "bootstrap/scss/utilities/api";
 
+@import "./fonts";
 @import "./forms";
 @import "./colors";
+@import "./badge";
 @import "./btn";
+@import "./widget";
 @import "./layout";
+@import "./table";
+@import "./materials-symbols";
 @import "./nav";
 @import "./elements";
 @import "./dropdown";
+
+@import "./components/monitors";

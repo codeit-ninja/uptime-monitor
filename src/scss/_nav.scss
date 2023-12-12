@@ -3,4 +3,17 @@
     --#{$prefix}nav-link-padding-y: .5rem;
 
     margin: 1rem 0;
+
+    &-link {
+        display: flex;
+        justify-items: center;
+        gap: .75rem;
+
+        &.active {
+            --#{$prefix}nav-link-color: #{$nav-link-hover-color};
+
+            background-color: $secondary-600;
+            border-radius: $border-radius;
+        }
+    }
 }

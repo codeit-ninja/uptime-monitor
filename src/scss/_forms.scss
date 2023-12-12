@@ -1,0 +1,8 @@
+.form-control {
+    &-error {
+        font-weight: 400;
+        font-size: .9rem;
+        margin-top: .5rem;
+        color: $secondary-300;
+    }
+}

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { generateInputId } from "$lib";
     import Input from "./Input.svelte";
 
     export let value: string;
@@ -6,19 +7,27 @@
     export let name: string;
     export let required = false;
     export let disabled = false;
-    export let id = '';
+    export let id = generateInputId();
+    export let error: null | string = null;
+    export let onInput = (event: Event) => {};
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>
-    <Input
+    <input
+        class="form-control"
+        class:is-invalid={error}
         type="text"
+
+        {id}
         {name}
         {required}
         {disabled}
         bind:value={value}
-        bind:id={id}
+        on:input={onInput}
     />
-    <div class="invalid-feedback">
-        This field is required
-    </div>
+    {#if error}
+        <div class="form-control-error">
+            { error } 
+        </div>
+    {/if}
 </div>

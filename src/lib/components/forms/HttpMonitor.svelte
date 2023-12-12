@@ -1,81 +1,55 @@
 <script lang="ts">
-    import { object, string, number, ValidationError } from 'yup';
     import Text from "./fields/Text.svelte";
     import Url from './fields/Url.svelte';
     import Number from './fields/Number.svelte';
     import Submit from './fields/Submit.svelte';
     import RadioButtonGroup from './fields/RadioButtonGroup.svelte';
+    import { useForm } from '$lib/forms';
+    import { debounce } from 'lodash';
+    import { schema } from '$lib/schemas/HttpMonitorSchema';
+    import { POST } from '$lib/http';
+    import { monitors } from "$lib/api";
+    import Toast from "../Toast.svelte";
 
-    const data = {
-        name: 'Nijlandpaardencoaching.nl',
-        url: 'https://nijlandpaardencoaching.nl',
-        interval: 10,
-        timeout: 30,
-        method: 'GET',
-        submitting: false
-    }
+    const { form, validate, submitted, errors } = useForm( schema )
 
-    const schema = object({
-        name: string().required(),
-        url: string().required(),
-        interval: number().required().min(10).max(1440),
-        timeout: number().required().min(5).max(60),
-        method: string().required(),
-    })
-
-    const submit = async (event: { currentTarget: EventTarget & HTMLFormElement }) => {
-        const formData = Object.fromEntries(new FormData(event.currentTarget));
+    const submit = async () => {
+        const isValid = await validate()
         
-        data.submitting = true;
-
-        // Return when form fields dont satisfies constraints
-        if( false === event.currentTarget.checkValidity() ) {
-            return event.currentTarget.classList.add('was-validated');
+        if( ! isValid ) {
+            return false;
         }
+        
+        await POST( '/api/monitors/http/create', $form );
 
-        try {
-            const formdata = await schema.validate( formData, { abortEarly: false } );
-
-            const request = await fetch('/api/monitors/http/create', {
-                method: 'POST',
-                body: JSON.stringify( formdata ),
-                headers: {
-                    'Content-Type': 'application/json'
-                }
-            })
-            const response = await request.text();
-
-            console.log(response)
-        } catch(err) {
-            if( err instanceof ValidationError ) {
-                //console.log(err.inner)
-            }
-        }
-
-        setTimeout(() => data.submitting = false, 500);
+        submitted.set(true)
     }
 </script>
-<form method="post" class="needs-validation" on:submit|preventDefault={submit} novalidate>
+<form method="post" on:submit|preventDefault={submit} novalidate>
     <RadioButtonGroup
-        bind:value={data.method}
+        bind:value={$form.method}
+        bind:error={$errors.method}
         label="HTTP Method"
         options={[ 'GET', 'POST', 'PATCH', 'PUT', 'DELETE' ]}
         name="method"
     />
     <Text 
-        bind:value={data.name} 
+        bind:value={$form.name} 
+        bind:error={$errors.name}
         name="name" 
         label="Friendly name" 
         required 
     />
     <Url 
-        bind:value={data.url} 
+        bind:value={$form.url} 
+        bind:error={$errors.url}
         name="url" 
         label="URL" 
         required 
     />
     <Number 
-        bind:value={data.interval}
+        bind:value={$form.interval}
+        bind:error={$errors.interval}
         min="10"
         max="1440"
         step="1"
@@ -86,7 +60,8 @@
         required 
     />
     <Number 
-        bind:value={data.timeout}
+        bind:value={$form.timeout}
+        bind:error={$errors.timeout}
         min="5"
         max="60"
         step="1"
@@ -96,5 +71,7 @@
         after="seconds"
         required 
     />
-    <Submit value="Create monitor" submitting={data.submitting} />
+    <Submit value="Create monitor" />
+
+    <Toast message={`Monitor ${$form.name} created`} title="HTTP monitor" show={$submitted} />
 </form>

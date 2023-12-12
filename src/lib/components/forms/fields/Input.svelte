@@ -7,9 +7,12 @@
     export let required = false;
     export let disabled = false;
     export let id = generateInputId();
+    export let error = '';
 </script>
 <input
     class="form-control"
+    class:is-invalid={error}
+    
     { ...{ type } }
     {name}
     {id}

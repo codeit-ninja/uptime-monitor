@@ -1,25 +1,25 @@
 import { pb } from "$lib/pocketbase";
-import type { HttpMonitorsRecord, HttpMonitorsResponse } from "$lib/types/pocketbase-types";
-import { json, type RequestHandler } from "@sveltejs/kit"
-import type { RecordService } from "pocketbase";
-
-export type HttpMonitorRequestData = {
-    method: string;
-    timeout: number;
-    interval: number;
-    url: string;
-    name: string;
-}
+import { json, type RequestEvent, type RequestHandler } from "@sveltejs/kit"
+import { schema } from '$lib/schemas/HttpMonitorSchema';
+import {  createMonitor } from "$lib/api/monitors/http";
 
 export const GET: RequestHandler = async () => {
     return json('Hi :)');
 }
 
-export const POST: RequestHandler = async ({ request }) => {
-    const requestData: HttpMonitorRequestData = await request.json()
-    const data: HttpMonitorsRecord = { ...requestData, user: pb.authStore.model!.id }
-    const record = await pb.collection('http_monitors').create(data);
+export const POST: RequestHandler = async ( { request, locals }: RequestEvent ) => {
+    const data = await request.json();
+    const isValid = await schema.validate( data );
 
-    console.log(record)
-    return json('');
+    if( ! isValid ) {
+        const options: ResponseInit = {
+            status: 400
+        }
+
+        return json( schema.errors, options );
+    }
+
+    const monitor = await createMonitor( data, locals.auth )
+
+    return json(monitor)
 }

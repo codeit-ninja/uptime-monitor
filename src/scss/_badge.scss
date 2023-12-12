@@ -1,0 +1,11 @@
+.badge {
+    background-color: $secondary-600;
+
+    &-danger {
+        color: $danger;
+    }
+
+    &-success {
+        color: $success;
+    }
+}

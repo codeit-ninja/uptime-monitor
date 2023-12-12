@@ -6,6 +6,7 @@
     export let label: string;
     export let name: string;
     export let id = generateInputId();
+    export let error: null | string = null;
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>
@@ -25,4 +26,9 @@
             <label class="btn" for={`${id}-${index}`}>{ option }</label>
         {/each}
     </div>
+    {#if error}
+        <div class="form-control-error">
+            { error } 
+        </div>
+    {/if}
 </div>

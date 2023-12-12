@@ -1,4 +1,14 @@
 .btn {
+    display: flex;
+    align-items: center;
+    gap: .75rem;
+
+    &-primary {
+        --#{$prefix}btn-border-width: 0;
+
+        @include gradient-directional( $primary, #5727af, 25deg );
+    }
+
     &-secondary,
     &-outline-secondary {
         --bs-btn-color: #{$white};

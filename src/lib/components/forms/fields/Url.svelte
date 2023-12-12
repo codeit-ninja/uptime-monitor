@@ -7,18 +7,23 @@
     export let required = false;
     export let disabled = false;
     export let id = '';
+    export let error: null | string = '';
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>
     <Input 
         type="url"
+
         {name}
         {required}
         {disabled}
         bind:value={value}
         bind:id={id}
+        bind:error={error}
     />
-    <div class="invalid-feedback">
-        { value === '' ? 'This field is required' : 'This is not a valid url' } 
-    </div>
+    {#if error}
+        <div class="form-control-error">
+            { error } 
+        </div>
+    {/if}
 </div>

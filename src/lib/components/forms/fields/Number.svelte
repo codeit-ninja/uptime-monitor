@@ -12,6 +12,7 @@
     export let after = '';
     export let required = false;
     export let disabled = false;
+    export let error: null | string = null;
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>
@@ -23,15 +24,16 @@
             <input
                 class="form-control w-auto"
                 type="number"
+                class:is-invalid={error}
 
                 {id}
                 {name}
-                {value}
                 {min}
                 {max}
                 {step}
                 {required}
                 {disabled}
+                bind:value={value}
             />
             {#if after}
                 <span class="small text-muted">{ after }</span>
@@ -41,6 +43,7 @@
         <input
             class="form-control w-auto"
             type="number"
+            class:is-invalid={error}
 
             {id}
             {name}
@@ -49,7 +52,9 @@
             {disabled}
         />
     {/if}
-    <div class="invalid-feedback">
-        { value.toString() === '' ? 'This field is required' : 'This is not a valid url' } 
-    </div>
+    {#if error}
+        <div class="form-control-error">
+            { error } 
+        </div>
+    {/if}
 </div>
