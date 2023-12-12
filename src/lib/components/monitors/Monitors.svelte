@@ -21,8 +21,9 @@
 <div class="monitors-table">
     <div class="row g-0">
         <div class="th col-6">Name</div>
-        <div class="th col-3">Type</div>
-        <div class="th col-3">Status</div>
+        <div class="th col-2">Latency</div>
+        <div class="th col-2">Type</div>
+        <div class="th col-2">Status</div>
     </div>
     
     {#each monitors as monitor}

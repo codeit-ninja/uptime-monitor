@@ -55,6 +55,23 @@ const create = async ( { name, interval, url, method, timeout }: HttpMonitorData
     })
 }
 
+export const getMonitorStats = async ( id: string ) => {
+    const fromTime = new Date( Date.now() )
+    fromTime.setHours(0, 0, 0, 0);
+
+    const resultList = await pb.collection('monitor_results').getFullList(500, {
+        filter: `created >= "${fromTime.toLocaleString()}" && monitor.id="${id}"`,
+    });
+
+    return resultList;
+}
+
+export const getLatency = async ( id: string ) => {
+    const record = await pb.collection('monitor_results').getFirstListItem(`monitor.id="${id}"`, { sort: '-created', requestKey: null });
+
+    return record.response_time;
+}
+
 export const createMonitor = async ( data: HttpMonitorData, user: UsersResponse ) => {
     return create( data, user ).then(r => r).catch(e => e);
 }
