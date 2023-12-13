@@ -4,9 +4,8 @@
     gap: .75rem;
 
     &-primary {
+        --#{$prefix}btn-color: $white;
         --#{$prefix}btn-border-width: 0;
-
-        @include gradient-directional( $primary, #5727af, 25deg );
     }
 
     &-secondary,

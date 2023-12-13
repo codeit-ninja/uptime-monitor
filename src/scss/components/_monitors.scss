@@ -1,16 +1,27 @@
 .monitors-table {
     background-color: $secondary-700;
     border-radius: 1rem;
+    overflow: hidden;
 
     .th, .td {
-        padding: 1.35rem 1.5rem;
+        padding: 1.35rem 2rem;
     }
 
     .td {
         color: $secondary-200;
+
+        @include transition(.05s);
     }
 
     .row:not(:last-child) {
         border-bottom: 1px solid $secondary-800;
+    }
+
+    .row {
+        text-decoration: none;
+
+        &:hover > .td {
+            color: $white;
+        }
     }
 }

@@ -59,11 +59,13 @@ export const getMonitorStats = async ( id: string ) => {
     const fromTime = new Date( Date.now() )
     fromTime.setHours(0, 0, 0, 0);
 
-    const resultList = await pb.collection('monitor_results').getFullList(500, {
+    const resultList = await pb.collection('monitor_results').getList(1, 150, {
         filter: `created >= "${fromTime.toLocaleString()}" && monitor.id="${id}"`,
+        sort: '-created',
+        requestKey: null
     });
 
-    return resultList;
+    return resultList.items;
 }
 
 export const getLatency = async ( id: string ) => {

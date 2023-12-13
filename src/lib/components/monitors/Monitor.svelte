@@ -1,24 +1,26 @@
 <script lang="ts">
-    import { getMonitorStats, getLatency } from "$lib/api/monitors/http";
+    import { generateInputId } from "$lib";
+    import { getMonitorStats } from "$lib/api/monitors/http";
     import { pb } from "$lib/pocketbase";
     import type { MonitorsResponse } from "$lib/types/pocketbase-types";
     import type { UnsubscribeFunc } from "pocketbase";
     import { onDestroy, onMount } from "svelte";
+    import Chart from "../Chart.svelte";
 
     export let monitor: MonitorsResponse;
 
     let unsubscribe: UnsubscribeFunc;
-    let latency: number;
+    let chartData: number[] = [];
+
+    const getLatency = async () => await (await getMonitorStats( monitor.id )).map(row => row.response_time).reverse();
 
     onMount( async () => {
         unsubscribe = await pb.collection('monitors').subscribe( monitor.id, async data => {
             monitor = data.record;
-            latency = await getLatency( monitor.id );
-
-            console.log(latency)
+            chartData = await getLatency();
         })
 
-        const data = await getMonitorStats( monitor.id );
+        chartData = await getLatency();
     })
 
     onDestroy( () => {
@@ -28,15 +30,14 @@
     })
 </script>
 
-<div class="row align-items-center g-0">
-    <div class="td col-6 fw-semibold">{monitor.name}</div>
-    <div class="td col-2 placeholder-glow">
-        {#if ! latency}
-            <span class="placeholder col-4 rounded"></span>
-        {:else}
-            <i class="font-monospace">{latency}ms</i>
-        {/if}
+<a class="row align-items-center g-0" href="/_/monitors/{monitor.id}">
+    <div class="td col-4 fw-semibold">{monitor.name}</div>
+    <div class="td col-4 placeholder-glow">
+        <Chart bind:data={chartData} />
     </div>
-    <div class="td col-2">{monitor.type}</div>
-    <div class="td col-2"><span class="indicator indicator-{monitor.online ? 'online' : 'offline'}"></span></div>
-</div>
+    <div class="td col-2 d-flex justify-content-center">{monitor.type}</div>
+    <div class="td col-2 d-flex justify-content-center align-items-center column-gap-3">
+        <span class="indicator indicator-{monitor.online ? 'online' : 'offline'}"></span>
+        <pre class="text-success mb-0">200</pre>
+    </div>
+</a>

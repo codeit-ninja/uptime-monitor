@@ -13,17 +13,17 @@
             <span class="material-symbols-outlined">
                 add
             </span>
-            Create monitor
+            Add new monitor
         </button>
     </div>
 </header>
 
 <div class="monitors-table">
     <div class="row g-0">
-        <div class="th col-6">Name</div>
-        <div class="th col-2">Latency</div>
-        <div class="th col-2">Type</div>
-        <div class="th col-2">Status</div>
+        <div class="th col-4">Name</div>
+        <div class="th col-4">Latency</div>
+        <div class="th col-2 d-flex justify-content-center">Type</div>
+        <div class="th col-2 d-flex justify-content-center">Status</div>
     </div>
     
     {#each monitors as monitor}
