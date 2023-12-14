@@ -1,8 +1,7 @@
 <script lang="ts">
-    import type { MonitorsResponse } from "$lib/types/pocketbase-types";
     import Monitor from "./Monitor.svelte";
 
-    export let monitors: MonitorsResponse[]
+    export let monitors: Monitors[]
 </script>
 <header class="d-flex align-items-center mb-5">
     <div class="page-title">

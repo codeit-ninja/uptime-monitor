@@ -1,17 +1,20 @@
 // See https://kit.svelte.dev/docs/types#app
 // for information about these interfaces
-import { UsersResponse } from '$lib/types/pocketbase-types'
+import { AuthenticationData } from '@directus/sdk'
+
+export type NonNullableFields<T> = {
+    [P in keyof T]: NonNullable<T[P]>;
+};
 
 declare global {
 
 	namespace App {
 		// interface Error {}
 		interface Locals {
-            auth: UsersResponse
+            auth: NonNullableFields<AuthenticationData>
         }
 		// interface PageData {}
 		// interface Platform {}
 	}
 }
-
 export {};

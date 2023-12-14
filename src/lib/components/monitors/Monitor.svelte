@@ -1,33 +1,35 @@
 <script lang="ts">
-    import { generateInputId } from "$lib";
-    import { getMonitorStats } from "$lib/api/monitors/http";
-    import { pb } from "$lib/pocketbase";
-    import type { MonitorsResponse } from "$lib/types/pocketbase-types";
-    import type { UnsubscribeFunc } from "pocketbase";
     import { onDestroy, onMount } from "svelte";
     import Chart from "../Chart.svelte";
+    import { client } from "$lib/directus";
+    import { readItem } from '@directus/sdk/rest'
+    import { monitorStatsSub } from "$lib/subscriptions/monitorStats";
+    import { subscribeTo } from "$lib/realtime";
 
-    export let monitor: MonitorsResponse;
+    export let monitor: Monitors;
 
-    let unsubscribe: UnsubscribeFunc;
-    let chartData: number[] = [];
-
-    const getLatency = async () => await (await getMonitorStats( monitor.id )).map(row => row.response_time).reverse();
+    let destroy: () => void;
+    let chartData: number[] = monitor.monitors_stats.map(row => row.latency).reverse();
 
     onMount( async () => {
-        unsubscribe = await pb.collection('monitors').subscribe( monitor.id, async data => {
-            monitor = data.record;
-            chartData = await getLatency();
-        })
+        const statsSubscription = await subscribeTo( { 
+            collection: 'monitors_stats',
+            event: 'create',
+            query: {
+                filter: {
+                    monitor: {
+                        id: {
+                            _eq: monitor.id
+                        }
+                    }
+                }
+            }
+        } )
 
-        chartData = await getLatency();
+        statsSubscription.on('create', response => chartData = [...chartData, ...response.data.map(row => row.latency)])
     })
 
-    onDestroy( () => {
-        if( unsubscribe ) {
-            unsubscribe();
-        }
-    })
+    onDestroy( () => destroy && destroy())
 </script>
 
 <a class="row align-items-center g-0" href="/_/monitors/{monitor.id}">

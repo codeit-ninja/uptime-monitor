@@ -1,18 +1,7 @@
 <script lang="ts">
-    import { getList } from "$lib/api/monitors/http";
-    import { pb } from "$lib/pocketbase";
-    import { updateCounts } from "$lib/stores/monitors";
-    import { user } from "$lib/stores/user";
-    import type { UnsubscribeFunc } from "pocketbase";
     import { onDestroy, onMount } from "svelte";
 
-    let unsubscribe: UnsubscribeFunc | undefined;
-
-    onMount( async () => {
-        unsubscribe = await pb.collection('monitors').subscribe('*', updateCounts);
-    })
-    
-    onDestroy(() => unsubscribe && unsubscribe())
+    let unsubscribe: undefined;
 </script>
 <div class="d-flex min-vw-100 vh-100">
     <aside class="layout__nav">
