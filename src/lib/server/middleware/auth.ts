@@ -39,7 +39,7 @@ export const auth: Handle = async ({ event, resolve }) => {
 
         // Requests to dashboard need to be authenticated
         if( ! event.locals.auth && env.ENVIRONMENT !== 'development' ) {
-            throw redirect(301, '/auth/login')
+            redirect(301, '/auth/login');
         }
     }
 
@@ -54,7 +54,7 @@ export const auth: Handle = async ({ event, resolve }) => {
                 httpOnly: env.ENVIRONMENT === 'development' ? false : true
             })
         } catch(_) {
-            throw redirect(301, '/auth/login');
+            redirect(301, '/auth/login');
         }
     }
 
