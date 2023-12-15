@@ -1,35 +1,28 @@
 <script lang="ts">
     import { onDestroy, onMount } from "svelte";
     import Chart from "../Chart.svelte";
-    import { client } from "$lib/directus";
-    import { readItem } from '@directus/sdk/rest'
-    import { monitorStatsSub } from "$lib/subscriptions/monitorStats";
-    import { subscribeTo } from "$lib/realtime";
+    import type { MonitorsStatsSubscription } from "$lib/realtime/stats";
+    import { writable } from "svelte/store";
 
     export let monitor: Monitors;
+    export let subscribe: MonitorsStatsSubscription;
 
-    let destroy: () => void;
+    let stop = writable<() => void>();
+
+    // let subscriptions: (() => void)[] = [];
+    // let destroy: () => void;
     let chartData: number[] = monitor.monitors_stats.map(row => row.latency).reverse();
 
     onMount( async () => {
-        const statsSubscription = await subscribeTo( { 
-            collection: 'monitors_stats',
-            event: 'create',
-            query: {
-                filter: {
-                    monitor: {
-                        id: {
-                            _eq: monitor.id
-                        }
-                    }
-                }
-            }
-        } )
+        if( subscribe ) {
+            const { events, unsubscribe } = await subscribe( monitor );
+            $stop = unsubscribe;
 
-        statsSubscription.on('create', response => chartData = [...chartData, ...response.data.map(row => row.latency)])
+            events.on('create', ({  }) => {})
+        }
     })
 
-    onDestroy( () => destroy && destroy())
+    onDestroy( () => $stop && $stop())
 </script>
 
 <a class="row align-items-center g-0" href="/_/monitors/{monitor.id}">

@@ -18,7 +18,7 @@ const cookieValue = document.cookie
     .split("; ")
     .find((row) => row.startsWith("directus_auth"))
     ?.split("=")[1];
-
+    
 const token = JSON.parse( decodeURIComponent( cookieValue as string ) );
 
 authStore.set( token );

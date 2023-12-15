@@ -53,5 +53,40 @@ export const subscribeTo = async <T extends keyof CustomDirectusTypes>({ collect
 
     emitter.on('unsubscribe', unsubscribe)
 
-    return emitter;
+    return {
+        events: emitter,
+        unsubscribe
+    }
 }
+
+export const subscribeToMonitor = async ( id: string ) => {
+    return await subscribeTo( { 
+        collection: 'monitors',
+        event: 'update',
+        query: {
+            filter: {
+                id: {
+                    _eq: id
+                }
+            }
+        }
+    } );
+}
+
+export const subscribeToMonitorStats = async ( id: string ) => {
+    return await subscribeTo( { 
+        collection: 'monitors_stats',
+        event: 'create',
+        query: {
+            filter: {
+                monitor: {
+                    id: {
+                        _eq: id
+                    }
+                }
+            }
+        }
+    } );
+}
+
+export const subscribe = async ( id: string, test: number ) => {}

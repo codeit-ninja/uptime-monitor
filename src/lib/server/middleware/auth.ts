@@ -4,6 +4,12 @@ import { refresh } from '@directus/sdk/rest';
 import { env } from '$env/dynamic/private';
 
 export const auth: Handle = async ({ event, resolve }) => {
+    if( event.url.pathname.startsWith('/api/auth') || event.url.pathname.startsWith('/auth') ) {
+        const response = await resolve(event)
+
+        return response;
+    }
+
     event.locals.auth = event.cookies.get('directus_auth') && JSON.parse( event.cookies.get('directus_auth') as string )
     
     refreshtoken: if( event.locals.auth ) {
@@ -15,7 +21,7 @@ export const auth: Handle = async ({ event, resolve }) => {
         /**
          * If token didnt expire, break out of if statement
          */
-        if( event.locals.auth.expires_at - new Date().getTime() > 60000 ) {
+        if( event.locals.auth.expires_at - new Date().getTime() > 100000 ) {
             break refreshtoken;
         }
 

@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { subscribe } from "$lib/realtime/stats";
     import Monitor from "./Monitor.svelte";
 
     export let monitors: Monitors[]
@@ -26,6 +27,6 @@
     </div>
     
     {#each monitors as monitor}
-        <Monitor {monitor} />
+        <Monitor {monitor} subscribe={subscribe} />
     {/each}
 </div>

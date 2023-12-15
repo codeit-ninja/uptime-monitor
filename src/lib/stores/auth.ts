@@ -1,10 +1,11 @@
-import { client } from "$lib/directus";
 import { refresh, type AuthenticationData } from "@directus/sdk";
+import { client } from "$lib/directus";
+import { POST } from "$lib/http";
 import { get, writable } from "svelte/store";
 
 let interval: NodeJS.Timeout;
 
-export const runRefreshTokenInterval = () => {
+const runRefreshTokenInterval = () => {
     if( interval ) {
         clearInterval( interval )
     }
@@ -14,9 +15,9 @@ export const runRefreshTokenInterval = () => {
 
 export const refreshToken = async () => {
     const auth = get( authStore );
-    
-    if( new Date(auth.expires_at as number).getTime() - new Date().getTime() <= 10000 ) {
-        authStore.set( await client.request(refresh('json', auth.refresh_token as string)) )
+
+    if( new Date(auth.expires_at as number).getTime() - new Date().getTime() <= 100000 ) {
+        authStore.set( await client.request( refresh('json', auth.refresh_token as string) ) )
     }
 }
 
@@ -27,10 +28,6 @@ export const createAuthStore = () => {
         set: ( token: AuthenticationData ) => {
             set( token )
             runRefreshTokenInterval()
-
-            if( ! token.expires_at ) {
-                token.expires_at = new Date( Date.now() + (token.expires as number) ).getTime()
-            }
             
             console.log(token)
             client.setToken( token.access_token )
