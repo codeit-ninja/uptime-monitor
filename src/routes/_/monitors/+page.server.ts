@@ -14,6 +14,8 @@ export const load: PageServerLoad = async () => {
         }
     }) )
 
+    console.log(monitors)
+
     return {
         monitors
     }

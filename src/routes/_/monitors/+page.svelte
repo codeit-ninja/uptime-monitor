@@ -4,6 +4,8 @@
     import Monitors from "$lib/components/monitors/Monitors.svelte";
 
     let data: PageData;
+
+    console.log(data)
 </script>
 
 <div class="container">
@@ -25,7 +27,7 @@
         </div>
     </div> -->
 
-    <Monitors monitors={data.monitors} />
+    <!-- <Monitors monitors={data.monitors} /> -->
 </div>
 
 <Modal />
