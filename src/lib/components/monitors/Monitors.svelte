@@ -1,8 +1,7 @@
 <script lang="ts">
-    import { subscribe } from "$lib/realtime/stats";
     import Monitor from "./Monitor.svelte";
 
-    export let monitors: Monitors[]
+    let { monitors } = $props<{ monitors: Monitors[] }>();
 </script>
 <header class="d-flex align-items-center mb-5">
     <div class="page-title">

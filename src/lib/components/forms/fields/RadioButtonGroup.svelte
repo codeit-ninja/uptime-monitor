@@ -1,12 +1,23 @@
 <script lang="ts">
     import { generateInputId } from "$lib";
 
-    export let options: string[] = [];
-    export let value: string;
-    export let label: string;
-    export let name: string;
-    export let id = generateInputId();
-    export let error: null | string = null;
+    type RadioProps = {
+        options: string[];
+        value: string;
+        label: string;
+        name: string;
+        id: string;
+        error: string | null;
+    }
+
+    let {
+        options = [],
+        value,
+        label,
+        name,
+        id = generateInputId(),
+        error = null
+    } = $props<RadioProps>();
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>

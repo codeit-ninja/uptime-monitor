@@ -1,13 +1,25 @@
 <script lang="ts">
     import { generateInputId } from "$lib";
 
-    export let name: string;
-    export let value: number|string = "";
-    export let type = 'text';
-    export let required = false;
-    export let disabled = false;
-    export let id = generateInputId();
-    export let error = '';
+    type InputProps = {
+        name: string, 
+        value: number | string, 
+        type: string, 
+        required: boolean,
+        disabled: boolean,
+        id: string,
+        error: string | null;
+    }
+
+    let { 
+        name, 
+        value       = '', 
+        type        = 'text', 
+        required    = false,
+        disabled    = false,
+        id          = generateInputId(),
+        error       = ''
+    } = $props<InputProps>();
 </script>
 <input
     class="form-control"

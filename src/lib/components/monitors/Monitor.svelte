@@ -3,7 +3,7 @@
     import Latency from "$lib/components/charts/Latency.svelte";
     import { client } from "$lib/directus";
 
-    export let monitor: Monitors;
+    let { monitor } = $props<{ monitor: Monitors }>();
     let unsubscribe: () => void;
 
     onMount( async () => {

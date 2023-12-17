@@ -1,8 +1,3 @@
-<script lang="ts">
-    import { onDestroy, onMount } from "svelte";
-
-    let unsubscribe: undefined;
-</script>
 <div class="d-flex min-vw-100 vh-100">
     <aside class="layout__nav">
         <nav class="nav flex-column gap-2">

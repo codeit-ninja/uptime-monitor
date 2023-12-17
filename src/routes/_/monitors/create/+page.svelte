@@ -22,8 +22,6 @@
     ]
 
     let selectedType = types[0]
-
-    $: console.log(selectedType)
 </script>
 <section class="section-xl">
     <h3 class="mb-4">Create new monitor</h3>

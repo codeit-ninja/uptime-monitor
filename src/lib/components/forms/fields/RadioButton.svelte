@@ -1,10 +1,19 @@
 <script lang="ts">
     import { generateInputId } from "$lib";
 
-    export let value: string;
-    export let label: string;
-    export let name: string;
-    export let id = generateInputId();
+    type RadioProps = {
+        value: number;
+        label: string;
+        name: string;
+        id: string;
+    }
+
+    let { 
+        value,
+        label,
+        name,
+        id = generateInputId()
+    } = $props<RadioProps>();
 </script>
 <div class="mb-4">
     <div>

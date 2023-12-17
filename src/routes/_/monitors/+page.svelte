@@ -1,10 +1,9 @@
 <script lang="ts">
     import Modal from "$lib/components/Modal.svelte";
-    import CountWidget from "$lib/components/widgets/CountWidget.svelte";
     import type { PageData } from "./$types";
     import Monitors from "$lib/components/monitors/Monitors.svelte";
 
-    export let data: PageData;
+    let data: PageData;
 </script>
 
 <div class="container">

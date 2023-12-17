@@ -2,12 +2,21 @@
     import { Chart } from "chart.js";
     import { onMount } from "svelte";
 
-    export let data: any[];
-    export let label: string;
-    export let height: string = 'auto';
-    export let color: string = '#ff9100';
+    type ChartProps = {
+        data: any[];
+        label: string;
+        height: string;
+        color: string;
+    }
 
-    let chartElement: HTMLCanvasElement;
+    let {
+        data,
+        label,
+        height  = 'auto',
+        color   = '#ff9100'
+    } = $props<ChartProps>();
+
+    let chartElement: HTMLCanvasElement = $state();
     let chart: Chart;
 
     onMount(() => {
@@ -51,11 +60,11 @@
         })
     })
 
-    $: if( chart ) {
+    $effect(() => {
         chart.data.datasets[0].data = data;
         chart.data.labels = data;
 
         chart.update()
-    }
+    })
 </script>
 <canvas bind:this={chartElement} height={height}></canvas>

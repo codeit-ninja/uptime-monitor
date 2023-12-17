@@ -1,18 +1,35 @@
 <script lang="ts">
     import { generateInputId } from "$lib";
 
-    export let value: number;
-    export let label: string;
-    export let name: string;
-    export let min = '';
-    export let max = '';
-    export let step = '';
-    export let id = generateInputId();
-    export let before = '';
-    export let after = '';
-    export let required = false;
-    export let disabled = false;
-    export let error: null | string = null;
+    type NumberProps = {
+        value: number;
+        label: string;
+        name: string;
+        min: number;
+        max: number;
+        step: number;
+        before: string;
+        after: string;
+        required: boolean;
+        disabled: boolean;
+        id: string;
+        error: string;
+    }
+
+    let {
+        value,
+        label,
+        name,
+        min         = '',
+        max         = '',
+        step        = '',
+        before      = '',
+        after       = '',
+        required    = false,
+        disabled    = false,
+        error       = null,
+        id          = generateInputId(),
+    } = $props<NumberProps>();
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>

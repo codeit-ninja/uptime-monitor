@@ -1,15 +1,27 @@
 <script lang="ts">
     import { generateInputId } from "$lib";
-    import Input from "./Input.svelte";
 
-    export let value: string;
-    export let label: string;
-    export let name: string;
-    export let required = false;
-    export let disabled = false;
-    export let id = generateInputId();
-    export let error: null | string = null;
-    export let onInput = (event: Event) => {};
+    type TextProps = {
+        value: number;
+        label: string;
+        name: string;
+        id: string;
+        required: boolean;
+        disabled: boolean;
+        onInput: ( event: Event ) => {};
+        error: string | null;
+    }
+
+    let { 
+        value,
+        label,
+        name,
+        id          = generateInputId(),
+        required    = false,
+        disabled    = false,
+        error       = null,
+        onInput     = (event: Event) => {}
+    } = $props<TextProps>();
 </script>
 <div class="mb-4">
     <label for={id} class="form-label">{ label }</label>
