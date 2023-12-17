@@ -11,8 +11,8 @@
     let { monitorId } = $props<LatencyProps>()
     let data: number[] = $state([]);
     
-    $effect( () => {
-        const test = client.subscribe('monitors_stats', {
+    $effect( async () => {
+        const test = await client.subscribe('monitors_stats', {
             query: {
                 filter: { 
                     monitor: { 

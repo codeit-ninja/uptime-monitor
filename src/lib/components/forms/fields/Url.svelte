@@ -3,13 +3,13 @@
     import { generateInputId } from "$lib";
 
     type UrlProps = {
-        value: number;
+        value: string;
         label: string;
         name: string;
-        id: string;
-        required: boolean;
-        disabled: boolean;
-        error: string | null;
+        id?: string;
+        required?: boolean;
+        disabled?: boolean;
+        error?: string | null;
     }
 
     let { 

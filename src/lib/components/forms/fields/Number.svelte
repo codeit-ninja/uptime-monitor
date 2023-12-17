@@ -10,10 +10,10 @@
         step: number;
         before: string;
         after: string;
-        required: boolean;
-        disabled: boolean;
-        id: string;
-        error: string;
+        required?: boolean;
+        disabled?: boolean;
+        id?: string;
+        error?: string | null;
     }
 
     let {

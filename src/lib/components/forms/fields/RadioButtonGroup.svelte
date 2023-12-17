@@ -6,8 +6,8 @@
         value: string;
         label: string;
         name: string;
-        id: string;
-        error: string | null;
+        id?: string;
+        error?: string | null;
     }
 
     let {

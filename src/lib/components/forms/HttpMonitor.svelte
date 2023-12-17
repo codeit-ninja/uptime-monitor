@@ -55,9 +55,9 @@
     <Number 
         bind:value={$form.interval}
         bind:error={$errors.interval}
-        min="10"
-        max="1440"
-        step="1"
+        min={10}
+        max={1440}
+        step={1}
         name="interval" 
         label="Interval" 
         before="Every" 
@@ -67,9 +67,9 @@
     <Number 
         bind:value={$form.timeout}
         bind:error={$errors.timeout}
-        min="5"
-        max="60"
-        step="1"
+        min={5}
+        max={60}
+        step={1}
         name="timeout" 
         label="Timeout" 
         before="After" 

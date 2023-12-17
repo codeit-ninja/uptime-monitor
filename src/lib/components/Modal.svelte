@@ -1,7 +1,7 @@
 <script lang="ts">
     import HttpMonitor from "./forms/HttpMonitor.svelte";
 
-    let element: HTMLDivElement;
+    let element = $state<HTMLDivElement>()
 </script>
 <div
     class="modal fade"

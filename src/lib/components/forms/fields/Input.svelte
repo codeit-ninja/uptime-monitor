@@ -4,11 +4,11 @@
     type InputProps = {
         name: string, 
         value: number | string, 
-        type: string, 
-        required: boolean,
-        disabled: boolean,
-        id: string,
-        error: string | null;
+        type?: string, 
+        required?: boolean,
+        disabled?: boolean,
+        id?: string,
+        error?: string | null;
     }
 
     let { 

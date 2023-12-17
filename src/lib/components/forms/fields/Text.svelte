@@ -2,14 +2,14 @@
     import { generateInputId } from "$lib";
 
     type TextProps = {
-        value: number;
+        value: string;
         label: string;
         name: string;
-        id: string;
-        required: boolean;
-        disabled: boolean;
-        onInput: ( event: Event ) => {};
-        error: string | null;
+        id?: string;
+        required?: boolean;
+        disabled?: boolean;
+        onInput?: ( event: Event ) => {};
+        error?: string | null;
     }
 
     let { 

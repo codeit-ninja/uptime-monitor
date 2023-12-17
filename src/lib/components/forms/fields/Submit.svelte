@@ -1,9 +1,9 @@
 <script lang="ts">
     type SubmitProps = {
         value: string;
-        variant: string;
-        disabled: boolean;
-        submitting: boolean;
+        variant?: string;
+        disabled?: boolean;
+        submitting?: boolean;
     }
 
     let {

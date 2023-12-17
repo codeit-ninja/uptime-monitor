@@ -1,15 +1,23 @@
 <script lang="ts">
     import { onMount } from "svelte";
 
-    export let options: string[] = [];
-    export let selected: string[]|string = "";
-    export let multiple = false;
+    type SelectProps = {
+        options: string[];
+        selected: string[] | string;
+        multiple: boolean;
+    }
 
-    let optionsCopy = options;
+    let {
+        options = [],
+        selected = "",
+        multiple = false
+    } = $props<SelectProps>();
+
+    let optionsCopy = $state(options);
     
-    let searchField: HTMLInputElement;
-    let searchValue = '';
-    let dropdownElement: HTMLDivElement;
+    let searchField = $state<HTMLInputElement>();
+    let searchValue = $state('');
+    let dropdownElement = $state<HTMLDivElement>();
 
     const filter = () => {
         optionsCopy = options.filter( val => val.startsWith( searchValue ) )
@@ -28,7 +36,7 @@
     }
 
     onMount( () => {
-        dropdownElement.addEventListener('shown.bs.dropdown', () => searchField.focus())
+        dropdownElement!.addEventListener('shown.bs.dropdown', () => searchField!.focus())
     })
 </script>
 
