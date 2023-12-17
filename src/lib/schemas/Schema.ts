@@ -1,4 +1,4 @@
-import { forIn, toPairs } from "lodash";
+import { forIn, toPairs } from "lodash-es";
 import { ValidationError, type ObjectSchema } from "yup";
 
 export type SchemaField<T> = {

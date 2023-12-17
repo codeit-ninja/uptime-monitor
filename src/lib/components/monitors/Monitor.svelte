@@ -1,38 +1,54 @@
 <script lang="ts">
     import { onDestroy, onMount } from "svelte";
-    import Chart from "../Chart.svelte";
-    import type { MonitorsStatsSubscription } from "$lib/realtime/stats";
-    import { writable } from "svelte/store";
+    import Latency from "$lib/components/charts/Latency.svelte";
+    import { client } from "$lib/directus";
 
     export let monitor: Monitors;
-    export let subscribe: MonitorsStatsSubscription;
-
-    let stop = writable<() => void>();
-
-    // let subscriptions: (() => void)[] = [];
-    // let destroy: () => void;
-    let chartData: number[] = monitor.monitors_stats.map(row => row.latency).reverse();
+    let unsubscribe: () => void;
 
     onMount( async () => {
-        if( subscribe ) {
-            const { events, unsubscribe } = await subscribe( monitor );
-            $stop = unsubscribe;
+        const subscription = await client.subscribe('monitors', {
+            event: 'update',
+            query: {
+                filter: {
+                    id: {
+                        _eq: monitor.id
+                    }
+                },
+                deep: {
+                    // @ts-expect-error directus does not export *.* as a type
+                    monitors_stats: {
+                        _sort: '-created_at'
+                    }
+                },
+                // @ts-expect-error directus does not export *.* as a type
+                fields: ['*.*']
+            }
+        })
 
-            events.on('create', ({  }) => {})
+        unsubscribe = subscription.unsubscribe;
+
+        for await (const item of subscription.subscription) {
+            if( item.event === 'update' ) {
+                // @ts-expect-error directus does not export *.* as a type
+                monitor = item.data[0];
+
+                console.log(item.data)
+            }
         }
     })
 
-    onDestroy( () => $stop && $stop())
+    onDestroy( () => unsubscribe && unsubscribe())
 </script>
 
 <a class="row align-items-center g-0" href="/_/monitors/{monitor.id}">
     <div class="td col-4 fw-semibold">{monitor.name}</div>
     <div class="td col-4 placeholder-glow">
-        <Chart bind:data={chartData} />
+        <Latency monitorId={monitor.id} />
     </div>
     <div class="td col-2 d-flex justify-content-center">{monitor.type}</div>
     <div class="td col-2 d-flex justify-content-center align-items-center column-gap-3">
         <span class="indicator indicator-{monitor.online ? 'online' : 'offline'}"></span>
-        <pre class="text-success mb-0">200</pre>
+        <pre class="text-success mb-0">{monitor.monitors_stats[0].response.status_code}</pre>
     </div>
 </a>

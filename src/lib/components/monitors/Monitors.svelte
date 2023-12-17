@@ -27,6 +27,6 @@
     </div>
     
     {#each monitors as monitor}
-        <Monitor {monitor} subscribe={subscribe} />
+        <Monitor {monitor} />
     {/each}
 </div>
