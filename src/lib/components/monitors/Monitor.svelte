@@ -41,8 +41,9 @@
     onDestroy( () => unsubscribe && unsubscribe())
 </script>
 
-<a class="row align-items-center g-0" href="/_/monitors/{monitor.id}">
-    <div class="td col-4 fw-semibold">{monitor.name}</div>
+<div class="row align-items-center g-0">
+    <div class="td col-4 fw-semibold">
+        <a href="/_/monitors/{monitor.id}">{monitor.name}</a></div>
     <div class="td col-4 placeholder-glow">
         <Latency monitorId={monitor.id} />
     </div>
@@ -51,4 +52,4 @@
         <span class="indicator indicator-{monitor.online ? 'online' : 'offline'}"></span>
         <pre class="text-success mb-0">{monitor.monitors_stats[0].response.status_code}</pre>
     </div>
-</a>
+</div>
