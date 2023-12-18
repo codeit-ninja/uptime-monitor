@@ -35,7 +35,7 @@
                 maintainAspectRatio: false,
                 animation: {
                     easing: 'linear', 
-                    duration: 60,
+                    duration: 0,
                 },
                 scales: {
                     y: {

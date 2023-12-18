@@ -5,6 +5,7 @@
     import Chart from "./Chart.svelte";
 
     export let monitorId: string;
+    export let height = '60px';
 
     let data: number[] = [];
     let unsubscribe: () => void;
@@ -40,4 +41,4 @@
     onDestroy(() => unsubscribe && unsubscribe())
 </script>
 
-<Chart {data} label="Latency" height="60px" />
+<Chart {data} label="Latency" {height} />

@@ -1,18 +1,18 @@
 import { client } from "$lib/directus"
 
-export const monitorStatsSub = async ( monitor: Monitors ) => {
+export const createMonitorStatsSubscription = async ( monitorId: string, event: 'create' | 'update' | 'delete' = 'create' ) => {
     const { subscription, unsubscribe } = await client.subscribe('monitors_stats', { 
         query: {
             filter: {
                 monitor: {
                     id: {
-                        _eq: monitor.id
+                        _eq: monitorId
                     }
                 }
             },
             sort: 'created_at'
         },
-        event: 'create'
+        event
     })
 
     return {
