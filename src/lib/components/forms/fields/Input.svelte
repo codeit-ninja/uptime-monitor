@@ -7,7 +7,7 @@
     export let required = false;
     export let disabled = false;
     export let id = generateInputId();
-    export let error = '';
+    export let error: string | null = null;
 </script>
 <input
     class="form-control"

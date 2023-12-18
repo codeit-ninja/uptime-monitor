@@ -1,13 +1,12 @@
 <script lang="ts">
-    import type { MonitorsResponse } from "$lib/types/pocketbase-types";
+    import { subscribe } from "$lib/realtime/stats";
     import Monitor from "./Monitor.svelte";
 
-    export let monitors: MonitorsResponse[]
+    export let monitors: Monitors[]
 </script>
-<header class="d-flex align-items-center mb-5">
-    <div class="page-title">
-        <h3 class="mb-0">Monitors</h3>
-    </div>
+
+<header class="page-title d-flex align-items-center">
+    <h1>Monitors</h1>
     <div class="ms-auto">
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
             <span class="material-symbols-outlined">

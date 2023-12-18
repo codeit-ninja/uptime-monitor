@@ -3,13 +3,12 @@
     import Url from './fields/Url.svelte';
     import Number from './fields/Number.svelte';
     import Submit from './fields/Submit.svelte';
+    import Toast from "../Toast.svelte";
     import RadioButtonGroup from './fields/RadioButtonGroup.svelte';
     import { useForm } from '$lib/forms';
-    import { debounce } from 'lodash';
     import { schema } from '$lib/schemas/HttpMonitorSchema';
-    import { POST } from '$lib/http';
-    import { monitors } from "$lib/api";
-    import Toast from "../Toast.svelte";
+    import { client } from "$lib/directus";
+    import { createItem } from "@directus/sdk";
 
     const { form, validate, submitted, errors } = useForm( schema )
 
@@ -19,9 +18,15 @@
         if( ! isValid ) {
             return false;
         }
-        
-        await POST( '/api/monitors/http/create', $form );
 
+        const monitor_data = {
+            method: $form.method,
+            url: $form.url,
+            timemout: $form.timeout
+        }
+
+        const response = await client.request( createItem('monitors', { type: 'HTTP', monitor_data, ...$form }) )
+        
         submitted.set(true)
     }
 </script>
